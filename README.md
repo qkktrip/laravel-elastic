@@ -1,2 +1,1 @@
-# laravel-elastic
-elasticsearch for laravel
+# laravel-elstic

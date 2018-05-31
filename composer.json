@@ -1,0 +1,41 @@
+{
+    "name": "qkktrip/laravel-elastic",
+    "description": "ElasticSearch for laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "qkktrip",
+            "email": "3027831735@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0",
+        "laravel/scout": "^4.0",
+        "elasticsearch/elasticsearch": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qkktrip\\LaravelElastic\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Qkktrip\\LaravelElastic\\ServiceProvider"
+            ],
+            "aliases": {
+                "Captcha": "Qkktrip\\LaravelElastic\\Facades\\Elastic"
+            }
+        }
+    }
+}
