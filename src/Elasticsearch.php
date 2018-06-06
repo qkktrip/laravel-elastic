@@ -22,13 +22,17 @@ class Elasticsearch
 
     public function search($type, $body)
     {
-        $params = [
-            'index' => $this->_index,
-            'type' => $type,
-            'body' => $body
-        ];
+        try {
+            $params = [
+                'index' => $this->_index,
+                'type'  => $type,
+                'body'  => $body
+            ];
 
-        return $this->getClient()->search($params);
+            return $this->getClient()->search($params);
+        } catch (\Exception $e) {
+            return json_decode($e->getMessage(), true);
+        }
     }
 
     public function index($type, $id, $body)
@@ -36,14 +40,14 @@ class Elasticsearch
         try {
             $params = [
                 'index' => $this->_index,
-                'type' => $type,
-                'id' => $id,
-                'body' => $body
+                'type'  => $type,
+                'id'    => $id,
+                'body'  => $body
             ];
 
             return $this->getClient()->index($params);
         } catch (\Exception $e) {
-            return false;
+            return json_decode($e->getMessage(), true);
         }
     }
 
@@ -52,12 +56,12 @@ class Elasticsearch
         try {
             $params = [
                 'index' => $this->_index,
-                'type' => $type,
+                'type'  => $type,
             ];
 
             return $this->getClient()->indices()->getMapping($params);
         } catch (\Exception $e) {
-            return false;
+            return json_decode($e->getMessage(), true);
         }
     }
 
@@ -66,49 +70,54 @@ class Elasticsearch
         try {
             $params = [
                 'index' => $this->_index,
-                'type' => $type,
-                'body' => $body
+                'type'  => $type,
+                'body'  => $body
             ];
 
-            $this->getClient()->indices()->putMapping($params);
-            return true;
+            return $this->getClient()->indices()->putMapping($params);
         } catch (\Exception $e) {
-            throw $e;
-            return false;
+            return json_decode($e->getMessage(), true);
         }
     }
 
-    public function createIndex($index)
+    public function createIndex($index = null)
     {
+        if (empty($index)) {
+            $index = $this->_index;
+        }
+
         try {
             $params = [
                 'index' => $index
             ];
 
-            $this->getClient()->indices()->create($params);
-            return true;
+            return $this->getClient()->indices()->create($params);
         } catch (\Exception $e) {
-            return false;
+            return json_decode($e->getMessage(), true);
         }
 
     }
 
-    public function deleteIndex($index)
+    public function deleteIndex($index = null)
     {
+        if (empty($index)) {
+            $index = $this->_index;
+        }
+
         try {
             $params = [
                 'index' => $index
             ];
 
-            $this->getClient()->indices()->delete($params);
-            return true;
+            return $this->getClient()->indices()->delete($params);
         } catch (\Exception $e) {
-            return false;
+            return json_decode($e->getMessage(), true);
         }
 
     }
 
-    public function indices($index){
+    public function indices($index)
+    {
         $this->index = $index;
     }
 
