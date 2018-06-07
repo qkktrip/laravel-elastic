@@ -2,10 +2,10 @@
 
 namespace Qkktrip\LaravelElastic;
 
-use Illuminate\Foundation\Application as LaravelApplication;
-use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\ServiceProvider;
 
-class ServiceProvider extends LaravelServiceProvider
+class ElasticServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -16,7 +16,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $source = realpath(__DIR__.'/config.php');
 
-        if ($this->app instanceof LaravelApplication) {
+        if ($this->app instanceof Application) {
             if ($this->app->runningInConsole()) {
                 $this->publishes([
                     $source => config_path('elastic.php'),
