@@ -3,9 +3,9 @@
 
 namespace Qkktrip\LaravelElastic\Facades;
 
-use Illuminate\Support\Facades\Facade as LaravelFacade;
+use Illuminate\Support\Facades\Facade;
 
-class Elastic extends LaravelFacade
+class Elastic extends Facade
 {
 
     public static function getFacadeAccessor()
