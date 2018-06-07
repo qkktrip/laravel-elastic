@@ -6,7 +6,7 @@ namespace Qkktrip\LaravelElastic;
 
 use Elasticsearch\ClientBuilder;
 
-class Elasticsearch
+class Elastic
 {
     private $_client;
     private $_config;
@@ -22,17 +22,13 @@ class Elasticsearch
 
     public function search($type, $body)
     {
-        try {
-            $params = [
-                'index' => $this->_index,
-                'type'  => $type,
-                'body'  => $body
-            ];
+        $params = [
+            'index' => $this->_index,
+            'type'  => $type,
+            'body'  => $body
+        ];
 
-            return $this->getClient()->search($params);
-        } catch (\Exception $e) {
-            return json_decode($e->getMessage(), true);
-        }
+        return $this->getClient()->search($params);
     }
 
     public function index($type, $id, $body)
@@ -47,7 +43,8 @@ class Elasticsearch
 
             return $this->getClient()->index($params);
         } catch (\Exception $e) {
-            return json_decode($e->getMessage(), true);
+            throw $e;
+            return false;
         }
     }
 
@@ -61,7 +58,8 @@ class Elasticsearch
 
             return $this->getClient()->indices()->getMapping($params);
         } catch (\Exception $e) {
-            return json_decode($e->getMessage(), true);
+            throw $e;
+            return false;
         }
     }
 
@@ -75,8 +73,10 @@ class Elasticsearch
             ];
 
             return $this->getClient()->indices()->putMapping($params);
+            return true;
         } catch (\Exception $e) {
-            return json_decode($e->getMessage(), true);
+            throw $e;
+            return false;
         }
     }
 
@@ -92,8 +92,10 @@ class Elasticsearch
             ];
 
             return $this->getClient()->indices()->create($params);
+            return true;
         } catch (\Exception $e) {
-            return json_decode($e->getMessage(), true);
+            throw $e;
+            return false;
         }
 
     }
@@ -110,8 +112,10 @@ class Elasticsearch
             ];
 
             return $this->getClient()->indices()->delete($params);
+            return true;
         } catch (\Exception $e) {
-            return json_decode($e->getMessage(), true);
+            throw $e;
+            return false;
         }
 
     }

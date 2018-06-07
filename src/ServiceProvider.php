@@ -32,10 +32,10 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Elasticsearch::class, function ($app){
-            return new Elasticsearch(config('elastic'));
+        $this->app->singleton(Elastic::class, function ($app){
+            return new Elastic(config('elastic'));
         });
 
-        $this->app->alias(Elasticsearch::class, 'elastic');
+        $this->app->alias(Elastic::class, 'elastic');
     }
 }
