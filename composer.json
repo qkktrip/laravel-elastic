@@ -31,10 +31,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Qkktrip\\LaravelElastic\\ServiceProvider"
+                "Qkktrip\\LaravelElastic\\ElasticServiceProvider"
             ],
             "aliases": {
-                "Captcha": "Qkktrip\\LaravelElastic\\Facades\\Elastic"
+                "Elastic": "Qkktrip\\LaravelElastic\\Facades\\Elastic"
             }
         }
     }
