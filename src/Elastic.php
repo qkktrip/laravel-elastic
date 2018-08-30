@@ -44,7 +44,6 @@ class Elastic
             return $this->getClient()->index($params);
         } catch (\Exception $e) {
             throw $e;
-            return false;
         }
     }
 
@@ -59,7 +58,6 @@ class Elastic
             return $this->getClient()->indices()->getMapping($params);
         } catch (\Exception $e) {
             throw $e;
-            return false;
         }
     }
 
@@ -73,10 +71,8 @@ class Elastic
             ];
 
             return $this->getClient()->indices()->putMapping($params);
-            return true;
         } catch (\Exception $e) {
             throw $e;
-            return false;
         }
     }
 
@@ -92,10 +88,8 @@ class Elastic
             ];
 
             return $this->getClient()->indices()->create($params);
-            return true;
         } catch (\Exception $e) {
             throw $e;
-            return false;
         }
 
     }
@@ -112,17 +106,16 @@ class Elastic
             ];
 
             return $this->getClient()->indices()->delete($params);
-            return true;
         } catch (\Exception $e) {
             throw $e;
-            return false;
         }
 
     }
 
     public function indices($index)
     {
-        $this->index = $index;
+        $this->_index = $index;
+        return $this;
     }
 
     protected function getClient()
