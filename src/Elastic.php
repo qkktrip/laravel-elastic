@@ -76,6 +76,44 @@ class Elastic
         }
     }
 
+    public function putSettings($body)
+    {
+        try {
+            $params = [
+                'index' => $this->_index,
+                'body'  => $body
+            ];
+            return $this->getClient()->indices()->putSettings($params);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function close(){
+        try {
+            $params = [
+                'index' => $this->_index,
+            ];
+
+            $this->getClient()->indices()->close($params);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function open(){
+        try {
+            $params = [
+                'index' => $this->_index,
+            ];
+
+            $this->getClient()->indices()->open($params);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+
     public function createIndex($index = null)
     {
         if (empty($index)) {
