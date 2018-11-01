@@ -31,14 +31,16 @@ class Elastic
         return $this->getClient()->search($params);
     }
 
-    /**
-     * @param $params array 参数：index type body
-     * @return array
-     * @throws \Exception
-     * @author Kvens
-     */
-    public function bulk($params){
+    public function bulk($params, $type='')
+    {
         try {
+            if (!empty($type)){
+                $params = [
+                    'index' => $this->_index,
+                    'type'  => $type,
+                    'body'  => $params
+                ];
+            }
             return $this->getClient()->bulk($params);
         } catch (\Exception $e) {
             throw $e;
@@ -103,7 +105,8 @@ class Elastic
         }
     }
 
-    public function close(){
+    public function close()
+    {
         try {
             $params = [
                 'index' => $this->_index,
@@ -115,7 +118,8 @@ class Elastic
         }
     }
 
-    public function open(){
+    public function open()
+    {
         try {
             $params = [
                 'index' => $this->_index,
