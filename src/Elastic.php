@@ -31,6 +31,20 @@ class Elastic
         return $this->getClient()->search($params);
     }
 
+    /**
+     * @param $params array 参数：index type body
+     * @return array
+     * @throws \Exception
+     * @author Kvens
+     */
+    public function bulk($params){
+        try {
+            return $this->getClient()->bulk($params);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
     public function index($type, $id, $body)
     {
         try {

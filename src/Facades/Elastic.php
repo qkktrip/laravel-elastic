@@ -5,6 +5,12 @@ namespace Qkktrip\LaravelElastic\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * Class Elastic
+ * @method static \Qkktrip\LaravelElastic\Elastic indices(string $index)
+ * @package Qkktrip\LaravelElastic\Facades
+ * @author Kvens
+ */
 class Elastic extends Facade
 {
 
