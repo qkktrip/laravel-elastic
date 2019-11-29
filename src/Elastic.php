@@ -20,25 +20,32 @@ class Elastic
         $this->_host = $this->_config['hosts'] ?? ['http://localhost:9200'];
     }
 
-    public function search($type, $body)
+    /**
+     * @param $body
+     * @return array
+     */
+    public function search($body)
     {
         $params = [
             'index' => $this->_index,
-            'type'  => $type,
-            'body'  => $body
+            'body' => $body
         ];
 
         return $this->getClient()->search($params);
     }
 
-    public function bulk($params, $type='')
+    /**
+     * @param $params
+     * @return array
+     * @throws \Exception
+     */
+    public function bulk($params)
     {
         try {
-            if (!empty($type)){
+            if (!empty($type)) {
                 $params = [
                     'index' => $this->_index,
-                    'type'  => $type,
-                    'body'  => $params
+                    'body' => $params
                 ];
             }
             return $this->getClient()->bulk($params);
@@ -47,14 +54,39 @@ class Elastic
         }
     }
 
-    public function index($type, $id, $body)
+    /**
+     * @param $id
+     * @param $body
+     * @return array
+     * @throws \Exception
+     */
+    public function update($id, $body)
     {
         try {
             $params = [
                 'index' => $this->_index,
-                'type'  => $type,
-                'id'    => $id,
-                'body'  => $body
+                'id' => $id,
+                'body' => $body
+            ];
+            return $this->getClient()->update($params);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $body
+     * @return array
+     * @throws \Exception
+     */
+    public function index($id, $body)
+    {
+        try {
+            $params = [
+                'index' => $this->_index,
+                'id' => $id,
+                'body' => $body
             ];
 
             return $this->getClient()->index($params);
@@ -63,12 +95,16 @@ class Elastic
         }
     }
 
+    /**
+     * @param $type
+     * @return array
+     * @throws \Exception
+     */
     public function getMapping($type)
     {
         try {
             $params = [
-                'index' => $this->_index,
-                'type'  => $type,
+                'index' => $this->_index
             ];
 
             return $this->getClient()->indices()->getMapping($params);
@@ -77,13 +113,18 @@ class Elastic
         }
     }
 
-    public function putMapping($type, $body)
+    /**
+     * @param $type
+     * @param $body
+     * @return array
+     * @throws \Exception
+     */
+    public function putMapping($body)
     {
         try {
             $params = [
                 'index' => $this->_index,
-                'type'  => $type,
-                'body'  => $body
+                'body' => $body
             ];
 
             return $this->getClient()->indices()->putMapping($params);
@@ -92,12 +133,17 @@ class Elastic
         }
     }
 
+    /**
+     * @param $body
+     * @return array
+     * @throws \Exception
+     */
     public function putSettings($body)
     {
         try {
             $params = [
                 'index' => $this->_index,
-                'body'  => $body
+                'body' => $body
             ];
             return $this->getClient()->indices()->putSettings($params);
         } catch (\Exception $e) {
@@ -105,6 +151,9 @@ class Elastic
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function close()
     {
         try {
@@ -118,6 +167,9 @@ class Elastic
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function open()
     {
         try {
@@ -131,16 +183,17 @@ class Elastic
         }
     }
 
-
-    public function createIndex($index = null)
+    /**
+     * @param array $body
+     * @return array
+     * @throws \Exception
+     */
+    public function createIndex($body = [])
     {
-        if (empty($index)) {
-            $index = $this->_index;
-        }
-
         try {
             $params = [
-                'index' => $index
+                'index' => $this->_index,
+                'body' => $body
             ];
 
             return $this->getClient()->indices()->create($params);
@@ -150,15 +203,15 @@ class Elastic
 
     }
 
-    public function deleteIndex($index = null)
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function deleteIndex()
     {
-        if (empty($index)) {
-            $index = $this->_index;
-        }
-
         try {
             $params = [
-                'index' => $index
+                'index' => $this->_index
             ];
 
             return $this->getClient()->indices()->delete($params);
@@ -168,12 +221,22 @@ class Elastic
 
     }
 
-    public function indices($index)
+    /**
+     * @param string $index
+     * @return $this
+     */
+    public function indices($index = '')
     {
-        $this->_index = $index;
+        if (!empty($index)) {
+            $this->_index = $index;
+        }
+
         return $this;
     }
 
+    /**
+     * @return \Elasticsearch\Client
+     */
     protected function getClient()
     {
         if (!$this->_client) {
