@@ -42,12 +42,11 @@ class Elastic
     public function bulk($params)
     {
         try {
-            if (!empty($type)) {
-                $params = [
-                    'index' => $this->_index,
-                    'body' => $params
-                ];
-            }
+            $params = [
+                'index' => $this->_index,
+                'body' => $params
+            ];
+
             return $this->getClient()->bulk($params);
         } catch (\Exception $e) {
             throw $e;
@@ -96,11 +95,10 @@ class Elastic
     }
 
     /**
-     * @param $type
      * @return array
      * @throws \Exception
      */
-    public function getMapping($type)
+    public function getMapping()
     {
         try {
             $params = [
@@ -114,7 +112,6 @@ class Elastic
     }
 
     /**
-     * @param $type
      * @param $body
      * @return array
      * @throws \Exception
